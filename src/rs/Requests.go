@@ -2,8 +2,10 @@ package rs
 
 import (
 	"fmt"
+	"github.com/Jecced/rs/src/rs/util"
 	"io/ioutil"
 	"net/http"
+	"os"
 )
 
 type Requests interface {
@@ -81,7 +83,22 @@ func (r *Request) Send() *Request {
 
 // 将结果请求写入到文件
 func (r *Request) WriteToFile(path string) {
+	// 创建父文件夹
+	util.MkdirParent(path)
+	// 创建文件
+	create, err := os.Create(path)
+	if err != nil {
+		fmt.Println("创建文件", path, err)
+		return
+	}
 
+	defer create.Close()
+
+	_, err = create.Write(r.resp)
+	if err != nil {
+		fmt.Println("写入流出错", err)
+		return
+	}
 }
 
 // 将结果请求读取为字符串
