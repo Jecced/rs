@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"github.com/Jecced/rs/src/rs/util"
 	"io/ioutil"
+	"net"
 	"net/http"
 	"os"
+	"time"
 )
 
 type Requests interface {
@@ -41,24 +43,86 @@ type CommRequest interface {
 	ReadText() string
 	// 将结果写入到本地文件
 	WriteToFile(path string)
+	// 设置超时时间
+	SetTimeOut(time uint8)
+	// 设置建立连接的超时时间
+	SetConnTimeOut(time uint8)
+	// 设置相应请求的超时时间
+	SetRespTimeOut(time uint8)
 }
 
 type Request struct {
-	uri     string
-	url     string
-	client  *http.Client
-	resp    []byte
+	uri    string
+	client *http.Client
+
+	// 请求返回的流数据
+	resp []byte
+
+	// 请求类型: GET / POST
 	reqType string
+
+	// 相应建立连接的超时时间
+	connTimeout uint8
+
+	// 相应Resp的超时时间
+	respTimeout uint8
+
+	// ResponseHeaderTimeout
+	// 相应Resp请求头的的超时时间
+	headTimeout uint8
 }
 
 func NewRequest() *Request {
 	r := &Request{}
+
+	// 默认请求超时时间
+	r.connTimeout = 30
+	r.respTimeout = 30
+	r.headTimeout = 2
+
 	r.client = &http.Client{}
 	r.reqType = GET
 	return r
 }
 
+func (r *Request) dial(netw, addr string) (net.Conn, error) {
+	//设置建立连接超时
+	conn, err := net.DialTimeout(netw, addr, time.Second*time.Duration(r.connTimeout))
+	if err != nil {
+		return nil, err
+	}
+	//设置发送接受数据超时
+	_ = conn.SetDeadline(time.Now().Add(time.Second * time.Duration(r.respTimeout)))
+	return conn, nil
+}
+
+// 设置超时时间
+func (r *Request) SetTimeOut(time uint8) *Request {
+	r.SetConnTimeOut(time)
+	r.SetRespTimeOut(time)
+	return r
+}
+
+// 设置建立连接的超时时间
+func (r *Request) SetConnTimeOut(time uint8) *Request {
+	r.connTimeout = time
+	return r
+}
+
+// 设置相应请求的超时时间
+func (r *Request) SetRespTimeOut(time uint8) *Request {
+	r.respTimeout = time
+	return r
+}
+
+// 建立请求, 并将数据发送给服务器
 func (r *Request) Send() *Request {
+
+	r.client.Transport = &http.Transport{
+		Dial:                  r.dial,
+		ResponseHeaderTimeout: time.Second * time.Duration(r.headTimeout),
+	}
+
 	request, err := http.NewRequest(r.reqType, r.uri, nil)
 	if err != nil {
 		fmt.Println("生成请求对象错误")
