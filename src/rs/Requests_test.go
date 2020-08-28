@@ -15,3 +15,8 @@ func Test02(t *testing.T) {
 		Send().
 		WriteToFile("/Users/ankang/develop/test/test/1.png")
 }
+
+func Test03(t *testing.T) {
+	resp := Get("http://www.google.com").Proxy("127.0.0.1:1081").Send().ReadText()
+	fmt.Println(resp)
+}

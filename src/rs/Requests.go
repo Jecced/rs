@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net"
 	"net/http"
+	"net/url"
 	"os"
 	"time"
 )
@@ -36,24 +37,8 @@ const (
 	POST = "POST"
 )
 
-type CommRequest interface {
-	// 发送请求
-	Send() *Request
-	// 将结果返回为文本字符串
-	ReadText() string
-	// 将结果写入到本地文件
-	WriteToFile(path string)
-	// 设置超时时间
-	SetTimeOut(time uint8)
-	// 设置建立连接的超时时间
-	SetConnTimeOut(time uint8)
-	// 设置相应请求的超时时间
-	SetRespTimeOut(time uint8)
-}
-
 type Request struct {
-	uri    string
-	client *http.Client
+	uri string
 
 	// 请求返回的流数据
 	resp []byte
@@ -70,6 +55,9 @@ type Request struct {
 	// ResponseHeaderTimeout
 	// 相应Resp请求头的的超时时间
 	headTimeout uint8
+
+	// 请求代理
+	proxy string
 }
 
 func NewRequest() *Request {
@@ -80,7 +68,6 @@ func NewRequest() *Request {
 	r.respTimeout = 30
 	r.headTimeout = 2
 
-	r.client = &http.Client{}
 	r.reqType = GET
 	return r
 }
@@ -115,20 +102,43 @@ func (r *Request) SetRespTimeOut(time uint8) *Request {
 	return r
 }
 
-// 建立请求, 并将数据发送给服务器
-func (r *Request) Send() *Request {
+// 设置请求代理
+func (r *Request) Proxy(proxy string) *Request {
+	r.proxy = proxy
+	return r
+}
 
-	r.client.Transport = &http.Transport{
+// 生成建立连接的信息
+func (r *Request) buildClient() *http.Client {
+	client := &http.Client{}
+
+	t := &http.Transport{
 		Dial:                  r.dial,
 		ResponseHeaderTimeout: time.Second * time.Duration(r.headTimeout),
 	}
+
+	if r.proxy != "" {
+		t.Proxy = func(_ *http.Request) (*url.URL, error) {
+			return url.Parse("http://" + r.proxy)
+		}
+	}
+
+	client.Transport = t
+
+	return client
+}
+
+// 建立请求, 并将数据发送给服务器
+func (r *Request) Send() *Request {
 
 	request, err := http.NewRequest(r.reqType, r.uri, nil)
 	if err != nil {
 		fmt.Println("生成请求对象错误", err.Error())
 	}
 
-	response, err := r.client.Do(request)
+	client := r.buildClient()
+
+	response, err := client.Do(request)
 	if err != nil {
 		fmt.Println("发送请求失败", err.Error())
 	}
