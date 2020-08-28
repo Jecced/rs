@@ -125,12 +125,12 @@ func (r *Request) Send() *Request {
 
 	request, err := http.NewRequest(r.reqType, r.uri, nil)
 	if err != nil {
-		fmt.Println("生成请求对象错误")
+		fmt.Println("生成请求对象错误", err.Error())
 	}
 
 	response, err := r.client.Do(request)
 	if err != nil {
-		fmt.Println("发送请求失败")
+		fmt.Println("发送请求失败", err.Error())
 	}
 
 	if response == nil {
@@ -139,7 +139,7 @@ func (r *Request) Send() *Request {
 	defer response.Body.Close()
 	r.resp, err = ioutil.ReadAll(response.Body)
 	if err != nil {
-		fmt.Println("读取resp流错误")
+		fmt.Println("读取resp流错误", err.Error())
 	}
 
 	return r
@@ -152,7 +152,7 @@ func (r *Request) WriteToFile(path string) {
 	// 创建文件
 	create, err := os.Create(path)
 	if err != nil {
-		fmt.Println("创建文件", path, err)
+		fmt.Println("创建文件失败", path, err.Error())
 		return
 	}
 
@@ -160,7 +160,7 @@ func (r *Request) WriteToFile(path string) {
 
 	_, err = create.Write(r.resp)
 	if err != nil {
-		fmt.Println("写入流出错", err)
+		fmt.Println("写入流出错", err.Error())
 		return
 	}
 }
