@@ -47,14 +47,14 @@ type Request struct {
 	reqType string
 
 	// 相应建立连接的超时时间
-	connTimeout uint8
+	connTimeout int
 
 	// 相应Resp的超时时间
-	respTimeout uint8
+	respTimeout int
 
 	// ResponseHeaderTimeout
 	// 相应Resp请求头的的超时时间
-	headTimeout uint8
+	headTimeout int
 
 	// 请求代理
 	proxy string
@@ -74,30 +74,30 @@ func NewRequest() *Request {
 
 func (r *Request) dial(netw, addr string) (net.Conn, error) {
 	//设置建立连接超时
-	conn, err := net.DialTimeout(netw, addr, time.Second*time.Duration(r.connTimeout))
+	conn, err := net.DialTimeout(netw, addr, time.Millisecond*time.Duration(r.connTimeout))
 	if err != nil {
 		return nil, err
 	}
 	//设置发送接受数据超时
-	_ = conn.SetDeadline(time.Now().Add(time.Second * time.Duration(r.respTimeout)))
+	_ = conn.SetDeadline(time.Now().Add(time.Millisecond * time.Duration(r.respTimeout)))
 	return conn, nil
 }
 
 // 设置超时时间
-func (r *Request) SetTimeOut(time uint8) *Request {
+func (r *Request) SetTimeOut(time int) *Request {
 	r.SetConnTimeOut(time)
 	r.SetRespTimeOut(time)
 	return r
 }
 
 // 设置建立连接的超时时间
-func (r *Request) SetConnTimeOut(time uint8) *Request {
+func (r *Request) SetConnTimeOut(time int) *Request {
 	r.connTimeout = time
 	return r
 }
 
 // 设置相应请求的超时时间
-func (r *Request) SetRespTimeOut(time uint8) *Request {
+func (r *Request) SetRespTimeOut(time int) *Request {
 	r.respTimeout = time
 	return r
 }
@@ -114,7 +114,7 @@ func (r *Request) buildClient() *http.Client {
 
 	t := &http.Transport{
 		Dial:                  r.dial,
-		ResponseHeaderTimeout: time.Second * time.Duration(r.headTimeout),
+		ResponseHeaderTimeout: time.Millisecond * time.Duration(r.headTimeout),
 	}
 
 	if r.proxy != "" {
