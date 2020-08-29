@@ -58,6 +58,9 @@ type Request struct {
 
 	// 请求代理
 	proxy string
+
+	// 请求参数
+	param map[string]string
 }
 
 func NewRequest() *Request {
@@ -67,6 +70,8 @@ func NewRequest() *Request {
 	r.connTimeout = 30
 	r.respTimeout = 30
 	r.headTimeout = 2
+
+	r.param = make(map[string]string)
 
 	r.reqType = GET
 	return r
