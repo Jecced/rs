@@ -1,6 +1,10 @@
 # RS | 网络请求使用库
 
-让 `go` 更简单的发起 `http` 请求
+###### `RS`: `Requests`的缩写
+
+让 `golang` 更简单的发起 `http` 请求
+
+链式的请求规则
 
 Convenient http client for go.
 
