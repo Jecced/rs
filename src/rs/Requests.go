@@ -32,10 +32,21 @@ type Requests interface {
 	SetCookie()
 }
 
-const (
-	GET  = "GET"
-	POST = "POST"
-)
+// 生成GET请求
+func Get(uri string) *Request {
+	r := NewRequest()
+	r.reqType = GET
+	r.uri = uri
+	return r
+}
+
+// 生成GET请求
+func Post(uri string) *Request {
+	r := NewRequest()
+	r.reqType = POST
+	r.uri = uri
+	return r
+}
 
 type Request struct {
 	uri string
