@@ -127,9 +127,23 @@ func (r *Request) Proxy(proxy string) *Request {
 // 建立请求, 并将数据发送给服务器
 func (r *Request) Send() *Request {
 
-	request, err := http.NewRequest(r.reqType, r.uri, nil)
+	var request *http.Request
+	var err error
+
+	if r.reqType == GET {
+		request, err = r.getNewRequest()
+	} else if r.reqType == POST {
+		request, err = r.postNewRequest()
+	}
+
+	if request == nil && err == nil {
+		fmt.Println("无效请求")
+		return r
+	}
+
 	if err != nil {
 		fmt.Println("生成请求对象错误", err.Error())
+		return r
 	}
 
 	client := r.buildClient()
@@ -137,6 +151,7 @@ func (r *Request) Send() *Request {
 	response, err := client.Do(request)
 	if err != nil {
 		fmt.Println("发送请求失败", err.Error())
+		return r
 	}
 
 	if response == nil {

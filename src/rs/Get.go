@@ -1,6 +1,7 @@
 package rs
 
 import (
+	"net/http"
 	"strings"
 )
 
@@ -31,4 +32,9 @@ func (r *Request) getGetUrl() string {
 
 	// 没有问号
 	return uri + "?" + body
+}
+
+// get请求将生成get请求url
+func (r *Request) getNewRequest() (*http.Request, error) {
+	return http.NewRequest(r.reqType, r.getGetUrl(), nil)
 }
