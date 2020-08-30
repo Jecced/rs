@@ -99,31 +99,6 @@ func (r *Request) dial(netw, addr string) (net.Conn, error) {
 	return conn, nil
 }
 
-// 设置超时时间
-func (r *Request) SetTimeOut(time int) *Request {
-	r.SetConnTimeOut(time)
-	r.SetRespTimeOut(time)
-	return r
-}
-
-// 设置建立连接的超时时间
-func (r *Request) SetConnTimeOut(time int) *Request {
-	r.connTimeout = time
-	return r
-}
-
-// 设置相应请求的超时时间
-func (r *Request) SetRespTimeOut(time int) *Request {
-	r.respTimeout = time
-	return r
-}
-
-// 设置请求代理
-func (r *Request) Proxy(proxy string) *Request {
-	r.proxy = proxy
-	return r
-}
-
 // 建立请求, 并将数据发送给服务器
 func (r *Request) Send() *Request {
 
