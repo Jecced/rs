@@ -22,7 +22,9 @@ go get github.com/Jecced/rs
 
 One simple http request example that do http get request and read response as string:
 ```go
-resp := rs.Get("http://www.baidu.com/").Send().ReadText()
+resp := rs.Get("http://www.baidu.com/").
+            Send().
+            ReadText()
 fmt.Println(resp)
 ```
 
@@ -43,14 +45,21 @@ rs.Get("http://www.baidu.com/img/sug_bd.png?v=09816787.png").
 
 You can set connection connect timeout, and socket read/write timeout value
 ```go
-rs.Get(url).SetConnTimeOut(30_000).SetRespTimeOut(30_000).Send().ReadText()
+rs.Get(url).
+    SetConnTimeOut(30_000).
+    SetRespTimeOut(30_000).
+    Send().
+    ReadText()
 ```
 
 你也可以同时修改他们
 
 You can also change their values at the same time
 ```go
-rs.Get(url).SetTimeOut(30_000).Send().ReadText()
+rs.Get(url).
+    SetTimeOut(30_000).
+    Send().
+    ReadText()
 ```
 
 # Proxy | 代理
