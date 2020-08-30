@@ -78,9 +78,9 @@ func NewRequest() *Request {
 	r := &Request{}
 
 	// 默认请求超时时间
-	r.connTimeout = 30
-	r.respTimeout = 30
-	r.headTimeout = 2
+	r.connTimeout = 30_000
+	r.respTimeout = 30_000
+	r.headTimeout = 2_000
 
 	r.param = url.Values{}
 
