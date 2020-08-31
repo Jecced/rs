@@ -72,6 +72,9 @@ type Request struct {
 
 	// 请求参数
 	param url.Values
+
+	// 认证请求头 basicAuth
+	auth *basicAuth
 }
 
 func NewRequest() *Request {
@@ -122,6 +125,8 @@ func (r *Request) Send() *Request {
 	}
 
 	client := r.buildClient()
+
+	r.setHeader(request)
 
 	response, err := client.Do(request)
 	if err != nil {
