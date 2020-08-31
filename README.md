@@ -70,7 +70,8 @@ Set proxy by proxy method
 ```go
 resp := rs.Get("http://www.google.com").
     Proxy("127.0.0.1:1081").
-    Send().ReadText()
+    Send().
+    ReadText()
 fmt.Println(resp)
 ```
 
