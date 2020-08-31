@@ -74,6 +74,15 @@ resp := rs.Get("http://www.google.com").
 fmt.Println(resp)
 ```
 
+# BasicAuth | 基础认证
+```go
+resp := rs.Get(url).
+    BasicAuth(user_name, password).
+    Send().
+    ReadText()
+fmt.Println(resp)
+```
+
 
 
 
