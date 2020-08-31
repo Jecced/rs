@@ -63,10 +63,6 @@ type Request struct {
 	// 相应Resp的超时时间
 	respTimeout int
 
-	// ResponseHeaderTimeout
-	// 相应Resp请求头的的超时时间
-	headTimeout int
-
 	// 请求代理
 	proxy string
 
@@ -83,7 +79,6 @@ func NewRequest() *Request {
 	// 默认请求超时时间
 	r.connTimeout = 30_000
 	r.respTimeout = 30_000
-	r.headTimeout = 2_000
 
 	r.param = url.Values{}
 

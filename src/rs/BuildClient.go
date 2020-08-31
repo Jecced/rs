@@ -17,7 +17,7 @@ func (r *Request) buildClient() *http.Client {
 func (r *Request) buildTransport() *http.Transport {
 	t := &http.Transport{
 		Dial:                  r.dial,
-		ResponseHeaderTimeout: time.Millisecond * time.Duration(r.headTimeout),
+		ResponseHeaderTimeout: time.Millisecond * time.Duration(r.respTimeout),
 	}
 
 	r.setProxy(t)
