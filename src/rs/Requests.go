@@ -71,6 +71,9 @@ type Request struct {
 
 	// 认证请求头 basicAuth
 	auth *basicAuth
+
+	// 请求头
+	header map[string]string
 }
 
 func NewRequest() *Request {
