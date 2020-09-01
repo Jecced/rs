@@ -9,15 +9,16 @@
 Convenient http client for go.
 
 # HOW TO USE | 怎么用
+
 ---
 ```shell
 go get github.com/Jecced/rs
 ```
 
 # Usage | 用法
----
+
 ## Simple Case | 简单案例
----
+
 一个简单的http请求示例, 示例执行http请求, 并将响应读取为字符串 
 
 One simple http request example that do http get request and read response as string:
@@ -28,7 +29,8 @@ resp := rs.Get("http://www.baidu.com/").
 fmt.Println(resp)
 ```
 
-# WriteToFile | 写入到文件
+## WriteToFile | 写入到文件
+
 将响应请求保存到本地文件中, 例如保存一个图片
 
 Save the response request to a local file, such as an image
@@ -39,8 +41,58 @@ rs.Get("http://www.baidu.com/img/sug_bd.png?v=09816787.png").
 		WriteToFile("/Users/ankang/develop/test/1.png")
 ```
 
-# Timeout | 设置超时时间
----
+## Parameters | 设置请求参数
+
+Pass parameters in urls using params method:
+```go
+resp := rs.Get(url).
+            AddParam("key1", "value1").
+            AddParam("key2", "value2").
+            AddParam("key3", "value3").
+            Send().
+            ReadText()
+fmt.Println(resp)
+```
+OR
+```go
+resp := rs.Get(url).
+            AddParams(map[string]string{
+                "key1": "value1",
+                "key2": "value2",
+                "key3": "value3",
+            }).
+            Send().
+            ReadText()
+fmt.Println(resp)
+```
+
+## Set Headers | 设置请求头
+
+Http request headers can be set by headers method:
+```go
+resp := rs.Get(url).
+            AddHeader("key1", "value1").
+            AddHeader("key2", "value2").
+            AddHeader("key3", "value3").
+            Send().
+            ReadText()
+fmt.Println(resp)
+```
+OR
+```go
+resp := rs.Get(url).
+            AddHeaders(map[string]string{
+                "key1": "value1",
+                "key2": "value2",
+                "key3": "value3",
+            }).
+            Send().
+            ReadText()
+fmt.Println(resp)
+```
+
+## Timeout | 设置超时时间
+
 你可以设置连接超时时间, 和响应请求的超时时间
 
 You can set connection connect timeout, and socket read/write timeout value
@@ -62,20 +114,21 @@ rs.Get(url).
     ReadText()
 ```
 
-# Proxy | 代理
----
+## Proxy | 代理
+
 通过代理方法设置代理
 
 Set proxy by proxy method
 ```go
 resp := rs.Get("http://www.google.com").
-    Proxy("127.0.0.1:1081").
-    Send().
-    ReadText()
+            Proxy("127.0.0.1:1081").
+            Send().
+            ReadText()
 fmt.Println(resp)
 ```
 
-# BasicAuth | 基础认证
+## BasicAuth | 基础认证
+
 ```go
 resp := rs.Get(url).
     BasicAuth(user_name, password).
