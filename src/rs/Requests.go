@@ -84,6 +84,7 @@ func NewRequest() *Request {
 	r.respTimeout = 30_000
 
 	r.param = url.Values{}
+	r.header = make(map[string]string)
 
 	r.reqType = GET
 	return r
