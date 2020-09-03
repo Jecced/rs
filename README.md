@@ -137,6 +137,21 @@ resp := rs.Get(url).
 fmt.Println(resp)
 ```
 
+## Cookie | Cookie
+
+```go
+resp := rs.Get(url).
+    AddCookie("key1", "value1").
+    AddCookies(map[string]string{
+        "key2", "value2",
+        "key3", "value3",
+        "key4", "value4",
+    }).
+    Send().
+    ReadText()
+fmt.Println(resp)
+```
+
 
 
 
