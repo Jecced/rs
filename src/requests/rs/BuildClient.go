@@ -6,7 +6,7 @@ import (
 )
 
 // 生成建立连接的信息
-func (r *Request) buildClient() *http.Client {
+func (r *Requests) buildClient() *http.Client {
 	client := &http.Client{
 		Transport: r.buildTransport(),
 	}
@@ -14,7 +14,7 @@ func (r *Request) buildClient() *http.Client {
 }
 
 // 生成传输方法
-func (r *Request) buildTransport() *http.Transport {
+func (r *Requests) buildTransport() *http.Transport {
 	t := &http.Transport{
 		Dial:                  r.dial,
 		ResponseHeaderTimeout: time.Millisecond * time.Duration(r.respTimeout),

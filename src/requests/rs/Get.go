@@ -6,7 +6,7 @@ import (
 )
 
 // 生成get请求的url
-func (r *Request) getGetUrl() string {
+func (r *Requests) getGetUrl() string {
 	uri := r.uri
 	param := r.param
 
@@ -35,6 +35,6 @@ func (r *Request) getGetUrl() string {
 }
 
 // get请求将生成get请求url
-func (r *Request) getNewRequest() (*http.Request, error) {
+func (r *Requests) getNewRequest() (*http.Request, error) {
 	return http.NewRequest(r.reqType, r.getGetUrl(), nil)
 }

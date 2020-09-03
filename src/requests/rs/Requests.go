@@ -2,7 +2,7 @@ package rs
 
 import (
 	"fmt"
-	"github.com/Jecced/rs/src/rs/util"
+	"github.com/Jecced/rs/src/requests/util"
 	"io/ioutil"
 	"net"
 	"net/http"
@@ -11,29 +11,16 @@ import (
 	"time"
 )
 
-type Requests interface {
-	// 发送
-	Send()
-	// 代理
-	Proxy()
-	// 读取返回流为文本
-	ReadText()
-	// 将返回流输出文本, 写入到文件
-	WriteToFile()
-	// 读取成byte流
-	ReadByte()
-	// 设置请求参数
-	SetParams()
-	// 设置请求头
-	SetHeader()
-	// 设置超时时间
-	SetTimeOut()
-	// 设置Cookie
-	SetCookie()
-}
+// 枚举, 请求类型
+type requestType string
+
+const (
+	GET  requestType = "GET"
+	POST requestType = "POST"
+)
 
 // 生成GET请求
-func Get(uri string) *Request {
+func Get(uri string) *Requests {
 	r := newRequest()
 	r.reqType = GET
 	r.uri = uri
@@ -41,21 +28,21 @@ func Get(uri string) *Request {
 }
 
 // 生成GET请求
-func Post(uri string) *Request {
+func Post(uri string) *Requests {
 	r := newRequest()
 	r.reqType = POST
 	r.uri = uri
 	return r
 }
 
-type Request struct {
+type Requests struct {
 	uri string
 
 	// 请求返回的流数据
 	resp []byte
 
 	// 请求类型: GET / POST
-	reqType string
+	reqType requestType
 
 	// 相应建立连接的超时时间
 	connTimeout int
@@ -79,13 +66,13 @@ type Request struct {
 	cookie map[string]string
 }
 
-func newRequest() *Request {
+func newRequest() *Requests {
 	cookie := make(map[string]string)
 	return newRequestWithCookie(cookie)
 }
 
-func newRequestWithCookie(cookie map[string]string) *Request {
-	r := &Request{}
+func newRequestWithCookie(cookie map[string]string) *Requests {
+	r := &Requests{}
 
 	// 默认请求超时时间
 	r.connTimeout = 30_000
@@ -99,7 +86,7 @@ func newRequestWithCookie(cookie map[string]string) *Request {
 	return r
 }
 
-func (r *Request) dial(netw, addr string) (net.Conn, error) {
+func (r *Requests) dial(netw, addr string) (net.Conn, error) {
 	//设置建立连接超时
 	conn, err := net.DialTimeout(netw, addr, time.Millisecond*time.Duration(r.connTimeout))
 	if err != nil {
@@ -111,7 +98,7 @@ func (r *Request) dial(netw, addr string) (net.Conn, error) {
 }
 
 // 建立请求, 并将数据发送给服务器
-func (r *Request) Send() *Request {
+func (r *Requests) Send() *Requests {
 
 	var request *http.Request
 	var err error
@@ -161,7 +148,7 @@ func (r *Request) Send() *Request {
 }
 
 // 将结果请求写入到文件
-func (r *Request) WriteToFile(path string) {
+func (r *Requests) WriteToFile(path string) {
 	// 创建父文件夹
 	util.MkdirParent(path)
 	// 创建文件
@@ -181,6 +168,6 @@ func (r *Request) WriteToFile(path string) {
 }
 
 // 将结果请求读取为字符串
-func (r *Request) ReadText() string {
+func (r *Requests) ReadText() string {
 	return string(r.resp)
 }

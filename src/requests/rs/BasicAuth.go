@@ -15,7 +15,7 @@ func (b *basicAuth) encode() string {
 }
 
 // 对请求设置basic auth信息
-func (r *Request) BasicAuth(user, password string) *Request {
+func (r *Requests) BasicAuth(user, password string) *Requests {
 	r.auth = &basicAuth{name: user, pwd: password}
 	return r
 }

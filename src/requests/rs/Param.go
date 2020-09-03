@@ -1,13 +1,13 @@
 package rs
 
 // 增加一个请求参数
-func (r *Request) AddParam(key, value string) *Request {
+func (r *Requests) AddParam(key, value string) *Requests {
 	r.param.Add(key, value)
 	return r
 }
 
 // 增加多个请求参数
-func (r *Request) AddParams(param map[string]string) *Request {
+func (r *Requests) AddParams(param map[string]string) *Requests {
 	for k, v := range param {
 		r.param.Add(k, v)
 	}

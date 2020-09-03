@@ -5,14 +5,14 @@ type session struct {
 	cookie map[string]string
 }
 
-func (s *session) Get(uri string) *Request {
+func (s *session) Get(uri string) *Requests {
 	r := newRequestWithCookie(s.cookie)
 	r.reqType = GET
 	r.uri = uri
 	return r
 }
 
-func (s *session) Post(uri string) *Request {
+func (s *session) Post(uri string) *Requests {
 	r := newRequestWithCookie(s.cookie)
 	r.reqType = POST
 	r.uri = uri

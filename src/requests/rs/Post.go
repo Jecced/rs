@@ -6,6 +6,6 @@ import (
 )
 
 // 生成post请求
-func (r *Request) postNewRequest() (*http.Request, error) {
+func (r *Requests) postNewRequest() (*http.Request, error) {
 	return http.NewRequest(r.reqType, r.uri, strings.NewReader(r.param.Encode()))
 }
