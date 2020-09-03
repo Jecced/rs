@@ -1,4 +1,4 @@
-package rs
+package requests
 
 import (
 	"net/http"
@@ -7,5 +7,5 @@ import (
 
 // 生成post请求
 func (r *Requests) postNewRequest() (*http.Request, error) {
-	return http.NewRequest(r.reqType, r.uri, strings.NewReader(r.param.Encode()))
+	return http.NewRequest(string(r.reqType), r.uri, strings.NewReader(r.param.Encode()))
 }

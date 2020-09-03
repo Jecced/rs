@@ -1,4 +1,4 @@
-package rs
+package requests
 
 // 设置超时时间
 func (r *Requests) SetTimeOut(time int) *Requests {

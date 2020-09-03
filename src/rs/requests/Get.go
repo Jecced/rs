@@ -1,4 +1,4 @@
-package rs
+package requests
 
 import (
 	"net/http"
@@ -36,5 +36,5 @@ func (r *Requests) getGetUrl() string {
 
 // get请求将生成get请求url
 func (r *Requests) getNewRequest() (*http.Request, error) {
-	return http.NewRequest(r.reqType, r.getGetUrl(), nil)
+	return http.NewRequest(string(r.reqType), r.getGetUrl(), nil)
 }

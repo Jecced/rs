@@ -1,4 +1,4 @@
-package rs
+package requests
 
 import (
 	"net/http"

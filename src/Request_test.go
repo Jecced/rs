@@ -1,8 +1,8 @@
-package requests
+package src
 
 import (
 	"fmt"
-	"github.com/Jecced/rs/src/requests/rs"
+	"github.com/Jecced/rs/src/rs"
 	"testing"
 )
 

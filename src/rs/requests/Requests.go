@@ -1,8 +1,8 @@
-package rs
+package requests
 
 import (
 	"fmt"
-	"github.com/Jecced/rs/src/requests/util"
+	"github.com/Jecced/rs/src/rs/util"
 	"io/ioutil"
 	"net"
 	"net/http"

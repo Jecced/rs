@@ -1,4 +1,4 @@
-package rs
+package requests
 
 // 增加一个请求参数
 func (r *Requests) AddParam(key, value string) *Requests {
