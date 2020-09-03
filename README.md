@@ -152,7 +152,19 @@ resp := rs.Get(url).
 fmt.Println(resp)
 ```
 
+## Session | Session
 
+会话为您维护cookie，在需要登录或其他情况时很有用。会话的用法与请求相同。
+
+Session maintains cookies, useful when need login or other situations. Session have the same usage as Requests.
+
+```go
+s := rs.Session()
+get := s.Get(url1).Send().ReadText()
+post := s.Post(url2).Send().ReadText()
+fmt.Println(get)
+fmt.Println(post)
+```
 
 
 ## LICENSE
