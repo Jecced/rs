@@ -34,7 +34,7 @@ type Requests interface {
 
 // 生成GET请求
 func Get(uri string) *Request {
-	r := NewRequest()
+	r := newRequest()
 	r.reqType = GET
 	r.uri = uri
 	return r
@@ -42,7 +42,7 @@ func Get(uri string) *Request {
 
 // 生成GET请求
 func Post(uri string) *Request {
-	r := NewRequest()
+	r := newRequest()
 	r.reqType = POST
 	r.uri = uri
 	return r
@@ -79,7 +79,12 @@ type Request struct {
 	cookie map[string]string
 }
 
-func NewRequest() *Request {
+func newRequest() *Request {
+	cookie := make(map[string]string)
+	return newRequestWithCookie(cookie)
+}
+
+func newRequestWithCookie(cookie map[string]string) *Request {
 	r := &Request{}
 
 	// 默认请求超时时间
@@ -88,7 +93,7 @@ func NewRequest() *Request {
 
 	r.param = url.Values{}
 	r.header = make(map[string]string)
-	r.cookie = make(map[string]string)
+	r.cookie = cookie
 
 	r.reqType = GET
 	return r
@@ -140,6 +145,12 @@ func (r *Request) Send() *Request {
 	if response == nil {
 		return r
 	}
+
+	cookies := response.Cookies()
+	for _, cookie := range cookies {
+		r.AddCookie(cookie.Name, cookie.Value)
+	}
+
 	defer response.Body.Close()
 	r.resp, err = ioutil.ReadAll(response.Body)
 	if err != nil {
