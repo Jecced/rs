@@ -14,6 +14,8 @@ func (r *Request) setHeader(request *http.Request) {
 		request.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	}
 
+	request.Header.Set("Cookie", r.cookieFormat())
+
 	for k, v := range r.header {
 		request.Header.Set(k, v)
 	}
