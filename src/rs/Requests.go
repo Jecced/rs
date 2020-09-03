@@ -74,6 +74,9 @@ type Request struct {
 
 	// 请求头
 	header map[string]string
+
+	// Cookie信息
+	cookie map[string]string
 }
 
 func NewRequest() *Request {
@@ -84,6 +87,7 @@ func NewRequest() *Request {
 	r.respTimeout = 30_000
 
 	r.param = url.Values{}
+	r.header = make(map[string]string)
 	r.header = make(map[string]string)
 
 	r.reqType = GET
