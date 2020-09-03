@@ -24,6 +24,9 @@ func (r *Request) RemoveCookies(key string) *Request {
 
 // 格式化所有cookie信息
 func (r *Request) cookieFormat() string {
+	if len(r.cookie) == 0 {
+		return ""
+	}
 	bb := bytes.Buffer{}
 	for k, v := range r.cookie {
 		bb.WriteString(" ;")
