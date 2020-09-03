@@ -88,7 +88,7 @@ func NewRequest() *Request {
 
 	r.param = url.Values{}
 	r.header = make(map[string]string)
-	r.header = make(map[string]string)
+	r.cookie = make(map[string]string)
 
 	r.reqType = GET
 	return r
