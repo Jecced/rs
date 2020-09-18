@@ -178,6 +178,17 @@ session.BasicAuth("user", "password")
 session.Get(url).Send().ReadText()
 ```
 
+### Session.Proxy | 基于 session 的代理
+
+所有由session发起的请求都会用这个代理信息
+
+add session method new func to use proxy
+
+```go
+session := rs.Session().Proxy("127.0.0.1:1081")
+session.Get(url1).Send().ReadText()
+session.Get(url2).Send().ReadText()
+```
 
 
 ## LICENSE
