@@ -166,6 +166,19 @@ fmt.Println(get)
 fmt.Println(post)
 ```
 
+### Session.BaseAuth | 基于 Session 的 基础认证
+
+所有由session发起的请求都会用这个基础认证信息
+
+add session method new func
+
+```go
+session := rs.Session()
+session.BasicAuth("user", "password")
+session.Get(url).Send().ReadText()
+```
+
+
 
 ## LICENSE
 
