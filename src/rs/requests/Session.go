@@ -11,6 +11,12 @@ type Sessions struct {
 	proxy string
 }
 
+func Session() *Sessions {
+	s := &Sessions{}
+	s.cookie = make(map[string]string)
+	return s
+}
+
 // 生成通用网络请求
 func (s *Sessions) commRequest(t requestType, uri string) *Requests {
 	r := newRequestWithCookie(s.cookie)
@@ -46,11 +52,5 @@ func (s *Sessions) BasicAuth(user, password string) *Sessions {
 // 设置通用代理
 func (s *Sessions) Proxy(proxy string) *Sessions {
 	s.proxy = proxy
-	return s
-}
-
-func Session() *Sessions {
-	s := &Sessions{}
-	s.cookie = make(map[string]string)
 	return s
 }
