@@ -21,13 +21,13 @@ func (r *Requests) setHeader(request *http.Request) {
 	}
 }
 
-// 增加一个请求参数
+// 增加一个请求头参数
 func (r *Requests) AddHeader(key, value string) *Requests {
 	r.header[key] = value
 	return r
 }
 
-// 增加多个请求参数
+// 增加多个请求头参数
 func (r *Requests) AddHeaders(param map[string]string) *Requests {
 	for key, value := range param {
 		r.header[key] = value

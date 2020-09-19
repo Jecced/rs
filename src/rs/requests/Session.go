@@ -9,10 +9,14 @@ type Sessions struct {
 
 	// 代理
 	proxy string
+
+	// 请求头
+	header map[string]string
 }
 
 func Session() *Sessions {
 	s := &Sessions{}
+	s.header = make(map[string]string)
 	s.cookie = make(map[string]string)
 	return s
 }
@@ -32,6 +36,9 @@ func (s *Sessions) commRequest(t requestType, uri string) *Requests {
 	if s.proxy != "" {
 		r.proxy = s.proxy
 	}
+
+	// 设置通用请求头
+	r.AddHeaders(s.header)
 	return r
 }
 
@@ -52,5 +59,19 @@ func (s *Sessions) BasicAuth(user, password string) *Sessions {
 // 设置通用代理
 func (s *Sessions) Proxy(proxy string) *Sessions {
 	s.proxy = proxy
+	return s
+}
+
+// 增加一个请求头参数
+func (s *Sessions) AddHeader(key, value string) *Sessions {
+	s.header[key] = value
+	return s
+}
+
+// 增加多个请求头参数
+func (s *Sessions) AddHeaders(param map[string]string) *Sessions {
+	for key, value := range param {
+		s.header[key] = value
+	}
 	return s
 }
