@@ -190,6 +190,25 @@ session.Get(url1).Send().ReadText()
 session.Get(url2).Send().ReadText()
 ```
 
+### Session.Header | 基于 session 的请求头
+
+所有由session发起的请求都会用这些请求头
+
+add session method new func to use header
+
+```go
+session := rs.Session().
+    AddHeader("header1", "value1").
+    AddHeader("header2", "value2").
+    AddHeaders(map[string]string{
+        "key1": "value1",
+        "key2": "value2",
+        "key3": "value3",
+    })
+session.Get(url1).Send().ReadText()
+session.Get(url2).Send().ReadText()
+```
+
 
 ## LICENSE
 
