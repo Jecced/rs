@@ -11,14 +11,6 @@ import (
 	"time"
 )
 
-// 枚举, 请求类型
-type requestType string
-
-const (
-	GET  requestType = "GET"
-	POST requestType = "POST"
-)
-
 // 生成GET请求
 func Get(uri string) *Requests {
 	r := newRequest()

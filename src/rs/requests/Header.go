@@ -7,14 +7,14 @@ import (
 // 设置请求头
 func (r *Requests) setHeader(request *http.Request) {
 	if r.auth != nil {
-		r.AddHeader("Authorization", r.auth.encode())
+		r.AddHeader(HeaderAuthorization, r.auth.encode())
 	}
 
 	if r.reqType == POST && len(r.param) > 0 {
-		request.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+		request.Header.Set(HeaderContentType, "application/x-www-form-urlencoded")
 	}
 
-	request.Header.Set("Cookie", r.cookieFormat())
+	request.Header.Set(HeaderCookie, r.cookieFormat())
 
 	for k, v := range r.header {
 		request.Header.Set(k, v)
@@ -37,6 +37,6 @@ func (r *Requests) AddHeaders(param map[string]string) *Requests {
 
 // 设置请求头中的content type
 func (r *Requests) SetContentType(contentType string) *Requests {
-	r.header["Content-Type"] = contentType
+	r.header[HeaderContentType] = contentType
 	return r
 }
