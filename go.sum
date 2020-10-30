@@ -1,0 +1,3 @@
+github.com/Jecced/go-tools v0.0.0-20201029034853-1ba08a0494a4 h1:H3ouuDm/DUqs6gLJZr30FK+RDxyerf/TNkNu2WlqCg4=
+github.com/Jecced/go-tools v0.0.0-20201029034853-1ba08a0494a4/go.mod h1:emmNFL4xgqL7eJSRWvuwi8S8a3I18lovMWx+aUzyB5A=
+github.com/go-sql-driver/mysql v1.5.0/go.mod h1:DCzpHaOWr8IXmIStZouvnhqoel9Qv2LBy8hT2VhHyBg=

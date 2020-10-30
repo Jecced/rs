@@ -2,7 +2,7 @@ package requests
 
 import (
 	"fmt"
-	"github.com/Jecced/rs/src/rs/util"
+	"github.com/Jecced/rs/src/rs/old/util"
 	"io/ioutil"
 	"net"
 	"net/http"

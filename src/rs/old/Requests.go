@@ -1,6 +1,6 @@
-package rs
+package old
 
-import "github.com/Jecced/rs/src/rs/requests"
+import "github.com/Jecced/rs/src/rs/old/requests"
 
 // 生成GET请求
 func Get(uri string) *requests.Requests {
