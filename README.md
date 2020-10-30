@@ -23,7 +23,7 @@ go get github.com/Jecced/rs
 
 One simple http request example that do http get request and read response as string:
 ```go
-resp := rs.Get("http://www.baidu.com/").
+resp, err := rs.Get("http://www.baidu.com/").
             Send().
             ReadText()
 fmt.Println(resp)
@@ -35,7 +35,7 @@ fmt.Println(resp)
 
 Save the response request to a local file, such as an image
 ```go
-rs.Get("http://www.baidu.com/img/sug_bd.png?v=09816787.png").
+err := rs.Get("http://www.baidu.com/img/sug_bd.png?v=09816787.png").
 		Send().
 		SetTimeOut(30_000).
 		WriteToFile("/Users/ankang/develop/test/1.png")
@@ -45,7 +45,7 @@ rs.Get("http://www.baidu.com/img/sug_bd.png?v=09816787.png").
 
 Pass parameters in urls using params method:
 ```go
-resp := rs.Get(url).
+resp, err := rs.Get(url).
             AddParam("key1", "value1").
             AddParam("key2", "value2").
             AddParam("key3", "value3").
@@ -55,7 +55,7 @@ fmt.Println(resp)
 ```
 OR
 ```go
-resp := rs.Get(url).
+resp, err := rs.Get(url).
             AddParams(map[string]string{
                 "key1": "value1",
                 "key2": "value2",
@@ -70,7 +70,7 @@ fmt.Println(resp)
 
 Http request headers can be set by headers method:
 ```go
-resp := rs.Get(url).
+resp, err := rs.Get(url).
             AddHeader("key1", "value1").
             AddHeader("key2", "value2").
             AddHeader("key3", "value3").
@@ -80,7 +80,7 @@ fmt.Println(resp)
 ```
 OR
 ```go
-resp := rs.Get(url).
+resp, err := rs.Get(url).
             AddHeaders(map[string]string{
                 "key1": "value1",
                 "key2": "value2",
@@ -120,7 +120,7 @@ rs.Get(url).
 
 Set proxy by proxy method
 ```go
-resp := rs.Get("http://www.google.com").
+resp, err := rs.Get("http://www.google.com").
             Proxy("127.0.0.1:1081").
             Send().
             ReadText()
@@ -140,7 +140,7 @@ fmt.Println(resp)
 ## Cookie | Cookie
 
 ```go
-resp := rs.Get(url).
+resp, err := rs.Get(url).
     AddCookie("key1", "value1").
     AddCookies(map[string]string{
         "key2", "value2",
@@ -160,8 +160,8 @@ Session maintains cookies, useful when need login or other situations. Session h
 
 ```go
 s := rs.Session()
-get := s.Get(url1).Send().ReadText()
-post := s.Post(url2).Send().ReadText()
+get, err := s.Get(url1).Send().ReadText()
+post, err := s.Post(url2).Send().ReadText()
 fmt.Println(get)
 fmt.Println(post)
 ```
@@ -173,7 +173,7 @@ fmt.Println(post)
 add session method new func
 
 ```go
-session := rs.Session()
+session, err := rs.Session()
 session.BasicAuth("user", "password")
 session.Get(url).Send().ReadText()
 ```
